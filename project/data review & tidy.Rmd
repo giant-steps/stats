@@ -1,0 +1,13 @@
+---
+title: "data review / tidy"
+output: html_document
+---
+
+Look at data for Experiment 1
+
+Also look into game theory issue for other experiment (2?)
+
+read about P2 / what format she wants the data in
+
+then create codebook
+
