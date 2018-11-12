@@ -1,0 +1,103 @@
+---
+title: "P2"
+output: html_document
+---
+Please upload 4 things, as detailed in the Ellis & Leek paper:
+
+-The raw data.
+-A tidy data set (Wickham 2014).
+-A code book describing each variable and its values in the tidy data set. [do this for all variables that will be part of your replication analyses]
+-An explicit and exact recipe you used to go from 1 -> 2,3. [this must be an R script or R Markdown file]
+
+I will upload: 
+-this R Markdown file
+-Study_1_Data.sav
+- codebook...**************
+
+-Study_1_Materials.doc
+
+The raw data is contained in "Study_1_Data.sav". I brought this into the R environment using "Environment > Import Dataset > From SPSS". This file was obtained from "https://osf.io/9k3sw/", which is the data repository for the "Pain as Social Glue" paper, found at "https://journals.sagepub.com/doi/10.1177/0956797614545886". 
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+glimpse(Study_1_Data)
+```
+
+2.2
+3. There should be one table for each “kind” of data.
+
+The "task" variables are ordinal, and they are in a good format (1:5 rankings, ascending). The variable names are sufficiently descriptive. 
+
+The "feelings" variables are ordinal, and they are in a good format (1:5 rankings, ascending). The variable names are sufficiently descriptive. 
+
+The "group" variables are ordinal, and they are in a good format (1:7 rankings, ascending). The variable names could be improved (e.g. group101 to group1 -- group question 1). 
+
+```{r}
+feel_col <- colnames(Study_1_Data)[startsWith(colnames(Study_1_Data), "feel")]
+task_col <- colnames(Study_1_Data)[startsWith(colnames(Study_1_Data), "task")]
+group_col <- colnames(Study_1_Data)[startsWith(colnames(Study_1_Data), "group")]
+results_col <- c(colnames(Study_1_Data)[endsWith(colnames(Study_1_Data), "TOT")],colnames(Study_1_Data)[endsWith(colnames(Study_1_Data), "PANAS")])
+
+demog <- Study_1_Data %>% select(subid,subnumber, subage, subgender, gendercoded, subbornaus, subbornloc, subausyears, subefl)
+experiment <- Study_1_Data %>% select(subid, groupnumber, groupsize, condition, pain1secs, pain2secs)
+task <- Study_1_Data %>% select(subid, task_col)
+feel <- Study_1_Data %>% select(subid, feel_col)
+group <- Study_1_Data %>% select(subid, group_col)
+results <- Study_1_Data %>% select(subid, results_col)
+
+glimpse(demog)
+glimpse(experiment)
+glimpse(task)
+glimpse(feel)
+glimpse(group)
+glimpse(results)
+```
+
+codebook may be a Word document
+
+include information about survey document from data website
+
+A common format for this document is a Word file. There should be a section called
+“Study design” that has a thorough description of the question being asked by the study
+as well as how you collected the data. An additional section called “Code book” should be
+provided to describe each variable and its units. This information is frequently conveyed
+most simply in tabular form. In this case, the columns of the table would contain columns
+including VariableName, Description, Units, CodingNotes, and OtherNotes. Further
+columns that provide additional information to the statistician should be included. (Figure
+1C)
+
+Continuous variables are anything measured on a quantitative scale that could be any
+fractional number. An example would be something like weight measured in kg. Ordinal
+data are data that have a fixed, small (< 100) number of levels but are ordered. This could
+be for example survey responses where the choices are: poor, fair, good. Categorical data
+are data where there are multiple categories, but they aren’t ordered. One example would
+be sex: male or female. Missing data are data that are unobserved and you don’t know
+the mechanism. Missing values should be coded as NA. If, however, missingness is coded
+in an alternative manner, this should be explicitly noted in the code book. Censored data
+are data where you know the missingness mechanism on some level. Common examples
+are a measurement being below a detection limit or a patient being lost to follow-up. They
+should also be coded as NA when you don’t have the data. But you should also add a new
+column to your tidy data called, “VariableNameCensored” which should have values of
+TRUE if censored and FALSE if not. In the code book you should explain why those values
+are missing. It is absolutely critical to report to the analyst if there is a reason you know
+about that some of the data are missing. You should also not impute, make up, or throw
+away missing observations.
+
+Generally, try to avoid coding categorical or ordinal variables as numbers. When you
+enter the value for sex in the tidy data, it should be “male” or “female”. The ordinal values
+in the data set should be “poor”, “fair”, and “good” not 1, 2, 3. This coding is attractive
+because it is self-documenting; any ambiguity or need for interpretation by the analyst is
+removed. This will ultimately avoid potential mix-ups about which direction effects go and
+will help identify coding errors.
+
+## System Information
+I developed and ran this code on Ubuntu Linux.
+R Version: 3.4.4
+RStudio Version: 1.1.456
+Ubuntu Version: 18.04.1 LTS
+
+
+whether you tried it more than once to confirm it gave the same results.
